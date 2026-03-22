@@ -1,0 +1,48 @@
+# ==========================================
+# 1. API & Web Server (AI Brain & Webhooks)
+# ==========================================
+fastapi
+uvicorn[standard]
+pydantic
+
+# ==========================================
+# 2. Browser Automation & Scraping
+# ==========================================
+playwright
+beautifulsoup4
+
+# ==========================================
+# 3. AI & LangChain (Resume & Parsing)
+# ==========================================
+langchain
+langchain-openai
+langchain-community
+openai
+
+# ==========================================
+# 4. Database & ORM (SQLite / PostgreSQL ready)
+# ==========================================
+sqlalchemy
+alembic        # For managing database schema migrations
+
+# ==========================================
+# 5. Task Queue & Scheduling
+# ==========================================
+celery
+redis          # Required as the message broker for Celery
+
+# ==========================================
+# 6. Messaging & External APIs
+# ==========================================
+twilio         # For WhatsApp integration
+
+# ==========================================
+# 7. Resume Document Generation
+# ==========================================
+python-docx    # To generate/edit .docx resumes
+fpdf2          # To generate PDF resumes
+
+# ==========================================
+# 8. Environment & Utilities
+# ==========================================
+python-dotenv  # To load .env variables safely

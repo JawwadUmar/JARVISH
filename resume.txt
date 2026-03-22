@@ -1,0 +1,52 @@
+Dashrath Paswan,
+current ctc:10 lac
+expected ctc 16 lac
+total year of experience 2 years
+can be locate anywhere in india
+Kolkata, West Bengal, India
+Email: dasrath1213@gmail.com — Phone: +91-7320822363 — LinkedIn: linkedin.com/in/dashrath-paswan-815923206
+— GitHub: github.com/dasrath1213
+Profile Summary
+Software Development Engineer with 1.5 year of experience in Java, Spring Boot, RESTful APIs, Python,Fast Api,and eventdriven
+application development. Skilled in Google Cloud, Apache Airflow (Python), CS fundamental. Strong foundation in
+Data Structure and algorithm (2000+ problems solved,problem solving , system design,SQL, and writing clean, test-driven
+code for high-performance applications.
+Experience
+Tata Consultancy Services (TCS),Kolkata India — Software Development Engineer Aug 2024 – Present
+• Developed pipelines with Apache Beam (Java) on Dataflow, processing 5TB+ daily.
+• Optimized BigQuery with partitioning, cutting costs by 35% and improving SLA 90% → 99.9%.
+• Architected a GCP Data Lake (GCS + BigQuery) with automated workflows in Cloud Composer.
+• Applied System Design (HLD & LLD) for scalable, fault-tolerant pipelines.
+Amazon — Software Development Engineer Intern,Bengaluru, India May 2023 – Jul 2023
+• Designed and implemented end-to-end (E2E) and unit test suites for the Artwork Library platform using Cypress, ensuring functional
+and regression coverage.
+• Automated validation workflows by integrating with CI/CD pipelines (AWS, Git), reducing manual QA effort by 40% and increasing
+release reliability.
+• Collaborated with cross-functional teams to streamline testing, bug reporting, and release processes, improving delivery efficiency.
+Education
+Indian Institute of Technology Patna — B.Tech, Electrical and Electronics Engineering Jul 2020 – May 2024
+Projects
+Doubt Hub Web App — MySQL, PHP, JavaScript GitHub
+• Developed a query discussion platform enabling users to ask and answer programming questions.
+• Implemented efficient data storage using MySQL, minimizing data redundancy.
+• Features: authentication, role-based access, and admin user database management.
+Cricket Score Card Generator — Python, Pandas GitHub
+• Built a Python program to automatically generate cricket scorecards from live commentary on Cricbuzz.
+• Used regex for parsing commentary and extracting match statistics.
+• Generated structured CSV reports with Pandas for analytics.
+Skills
+Cloud & Data Engineering: GCP (Dataflow, BigQuery, BigQuery ML, GCS, Cloud Composer, Pub/Sub, IAM, Cloud NLP API),
+Apache Airflow (Python), Data Lakes, Cloud Security, Monitoring (Prometheus, Grafana), REST API ,RESTful APIs
+Programming Languages: Java, Python, C, C++
+Frameworks/Tools: Apache Beam, Spring Boot,Jenkins, Bitbucket, Jira, Docker, Cypress, Git, Postman
+Databases: MongoDB, SQL, MySQL
+Concepts: System Design (High-Level Design & Low-Level Design), Data Structures and Algorithms, Object-Oriented Programming
+(OOP), Database Management Systems (DBMS), Operating Systems (OS), Computer Networks
+Languages: English (Professional), Hindi (Native) Soft skill:Teamwork, Communication, Leadership
+Accomplishments
+• Achieved Knight rank (1925) on LeetCode — Profile
+• Achieved Specialist rank (1409) on Codeforces
+• Solved 2000+ DSA problems across LeetCode, Codeforces, CodeChef, GfG
+Certifications
+• Google Cloud Professional Data Engineer — Google Cloud (Credly)
+• Professional Machine Learning Engineer — Google Cloud (Credly)
