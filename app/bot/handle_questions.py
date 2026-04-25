@@ -4,13 +4,14 @@ from playwright.async_api import Page
 
 from app.utils.human import human_delay, human_typing, human_mouse_move
 from langchain_groq import ChatGroq
+from langchain_core.prompts import ChatPromptTemplate
 
 
 def should_include_resume(question):
-    keywords = ["experience", "skill", "project", "technology", "linkedin", "github", "portfolio", "email", "phone", "contact"]
+    keywords = ["skill", "project", "technology", "linkedin", "github", "portfolio", "email", "phone", "contact"]
     return any(k in question.lower() for k in keywords)
 
-async def handle_questionnaire(page: Page, llm: ChatGroq, resume:str, prompt_template):
+async def handle_questionnaire(page: Page, llm: ChatGroq, resume:str, system_prompt:str, human_prompt:str):
     if not llm:
         return
 
@@ -49,7 +50,12 @@ async def handle_questionnaire(page: Page, llm: ChatGroq, resume:str, prompt_tem
                 if available_options: print(f"🔘 Options detected: {available_options}")
 
             # AI REASONING    
-            prompt = prompt_template.format(
+            prompt_template = ChatPromptTemplate.from_messages([
+                ("system", system_prompt),
+                ("human", human_prompt)
+            ])
+            
+            prompt = prompt_template.format_messages(
                 resume=resume if should_include_resume(question) else "N/A",
                 options=available_options,
                 question=question
