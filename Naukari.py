@@ -46,6 +46,15 @@ def get_resume_text(filepath="resume.txt"):
         print(f"⚠️ Warning: {filepath} not found. AI will make professional assumptions.")
         return ""
 
+def get_system_prompt(filepath="system_prompt.txt"):
+    """Reads the system prompt template for the AI."""
+    try:
+        with open(filepath, 'r', encoding='utf-8') as file:
+            return file.read()
+    except FileNotFoundError:
+        print(f"⚠️ Warning: {filepath} not found. Using fallback prompt.")
+        return "Resume: {resume}\nOptions: {options}\nQuestion: {question}\n\nRULES:\n1. ALWAYS POSITIVE: Say 'Yes' to relocation/shifts/learning.\n2. EXACT MATCH: If options exist, reply ONLY with the choice text.\n3. SCALES: If 1-7, reply '7'.\n4. BRIEF: Text answers MUST be under 80 chars.\n"
+
 async def human_delay(min_sec=2.0, max_sec=5.0):
     """Randomized pauses."""
     await asyncio.sleep(random.uniform(min_sec, max_sec))
@@ -63,7 +72,7 @@ async def human_mouse_move(page: Page):
 
 # --- 4. THE QUESTIONNAIRE ENGINE ---
 
-async def handle_questionnaire(page: Page, resume_text: str):
+async def handle_questionnaire(page: Page, resume_text: str, prompt_template: str):
     """The core engine that handles recruiter chats."""
     if not local_llm: return
     
@@ -108,17 +117,6 @@ async def handle_questionnaire(page: Page, resume_text: str):
                 if available_options: print(f"🔘 Options detected: {available_options}")
 
             # AI REASONING
-            prompt_template = """
-            Resume: {resume}
-            Options: {options}
-            Question: {question}
-            
-            RULES: 
-            1. ALWAYS POSITIVE: Say 'Yes' to relocation/shifts/learning.
-            2. EXACT MATCH: If options exist, reply ONLY with the choice text.
-            3. SCALES: If 1-7, reply '7'. 
-            4. BRIEF: Text answers MUST be under 80 chars.
-            """
             prompt = prompt_template.format(resume=resume_text, options=available_options, question=latest_question)
             
             print("🧠 JARVIS: Thinking...")
@@ -167,6 +165,7 @@ async def handle_questionnaire(page: Page, resume_text: str):
 
 async def run_naukri_bot():
     resume_content = get_resume_text()
+    prompt_template = get_system_prompt()
 
     async with async_playwright() as p:
         # Launch with slow_mo to bypass fast-action triggers
@@ -225,7 +224,7 @@ async def run_naukri_bot():
                 apply_btn = page.get_by_role("button", name=re.compile(r"^Apply", re.IGNORECASE))
                 if await apply_btn.count() > 0:
                     await apply_btn.first.click()
-                    await handle_questionnaire(page, resume_content)
+                    await handle_questionnaire(page, resume_content, prompt_template)
                     print("🎉 JARVIS: Operation Successful. Mission Accomplished.")
                     await human_delay(5, 10)
 
