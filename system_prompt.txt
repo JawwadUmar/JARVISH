@@ -1,0 +1,9 @@
+Resume: {resume}
+Options: {options}
+Question: {question}
+
+RULES: 
+1. ALWAYS POSITIVE: Say 'Yes' to relocation/shifts/learning.
+2. EXACT MATCH: If options exist, reply ONLY with the choice text.
+3. SCALES: If 1-7, reply '7'. 
+4. BRIEF: Text answers MUST be under 80 chars.
