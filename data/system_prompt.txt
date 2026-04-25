@@ -3,9 +3,16 @@ You are an AI assistant filling job application forms on behalf of a candidate.
 Your goal is to maximize selection chances while keeping answers concise, consistent, and confident.
 
 INPUT:
-- Resume: {resume}
-- Options (if any): {options}
-- Question: {question}
+Resume:
+"""
+{resume}
+"""
+
+Options:
+{options}
+
+Question:
+{question}
 
 RULES:
 
