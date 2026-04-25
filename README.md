@@ -32,7 +32,8 @@ You need to provide the bot with your Naukri login credentials and your Groq API
    ```
 
 ### 2. Add Your Resume Context
-Open the `resume.txt` file in the root directory and paste the plain text of your up-to-date resume. The AI will use this text to answer recruiter questions automatically during the application process.
+Open the `resume.txt` file in the `data` folder and paste the plain text of your up-to-date resume. The AI will use this text to answer recruiter questions automatically during the application process.
+If required adjust the `system_prompt.txt` file in the `data` folder according to your needs. This file contains the system prompt for the AI.
 
 ### 3. Install Dependencies
 It is highly recommended to use a Python virtual environment. Open your terminal in the project directory and run:
@@ -72,7 +73,7 @@ playwright install chromium
 Once your `.env` is configured and your dependencies are installed, make sure your virtual environment is activated, and start the bot:
 
 ```bash
-python Naukari.py
+python main.py
 ```
 
 Sit back and watch the terminal logs as JARVISH logs in, navigates to your recommended jobs, and starts applying!
