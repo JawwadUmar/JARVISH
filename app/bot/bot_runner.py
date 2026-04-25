@@ -6,7 +6,7 @@ from app.bot.handle_questions import handle_questionnaire
 import re
 from langchain_groq import ChatGroq
 
-async def run_bot(llm:ChatGroq, resume:str, prompt:str):
+async def run_bot(llm:ChatGroq, resume:str, system_prompt:str, human_prompt:str):
     async with async_playwright() as p:
         browser = await p.chromium.launch(
             headless=False,
@@ -93,7 +93,7 @@ async def run_bot(llm:ChatGroq, resume:str, prompt:str):
                         apply_btn = page.get_by_role("button", name=re.compile(r"^Apply", re.IGNORECASE))
                         if await apply_btn.count() > 0:
                             await apply_btn.first.click()
-                            await handle_questionnaire(page, llm, resume, prompt)
+                            await handle_questionnaire(page, llm, resume, system_prompt, human_prompt)
                             print("🎉 JARVIS: Batch Operation Successful. Taking a short break before next batch.")
                             await human_delay(15, 30)
                         break
