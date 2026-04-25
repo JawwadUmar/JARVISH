@@ -196,37 +196,41 @@ async def run_naukri_bot():
             await human_delay(6, 10) 
 
             # JOBS PAGE
-            print("🤖 JARVIS: Navigating to Jobs...")
-            await page.goto("https://www.naukri.com/mnjuser/recommendedjobs", wait_until="load")
-            await human_delay(4, 7)
+            while True:
+                print("🤖 JARVIS: Navigating to Jobs...")
+                await page.goto("https://www.naukri.com/mnjuser/recommendedjobs", wait_until="load")
+                await human_delay(4, 7)
 
-            # BATCH SELECTION
-            checkboxes = page.locator('article.jobTuple .tuple-check-box')
-            total = await checkboxes.count()
-            
-            jobs_selected = 0
-            for i in range(total):
-                if jobs_selected >= 5: break
-                cb = checkboxes.nth(i)
-                if await cb.is_visible():
-                    # Random scroll simulation
-                    if random.random() > 0.6: await page.mouse.wheel(0, random.randint(200, 400))
-                    
-                    is_checked = await cb.locator('.naukicon-ot-Checked').count() > 0
-                    if not is_checked:
-                        await cb.click()
-                        jobs_selected += 1
-                        print(f"✅ Selected job {jobs_selected}/5")
-                        await human_delay(1.5, 3.0)
+                # BATCH SELECTION
+                checkboxes = page.locator('article.jobTuple .tuple-check-box')
+                total = await checkboxes.count()
+                
+                jobs_selected = 0
+                for i in range(total):
+                    if jobs_selected >= 5: break
+                    cb = checkboxes.nth(i)
+                    if await cb.is_visible():
+                        # Random scroll simulation
+                        if random.random() > 0.6: await page.mouse.wheel(0, random.randint(200, 400))
+                        
+                        is_checked = await cb.locator('.naukicon-ot-Checked').count() > 0
+                        if not is_checked:
+                            await cb.click()
+                            jobs_selected += 1
+                            print(f"✅ Selected job {jobs_selected}/5")
+                            await human_delay(1.5, 3.0)
 
-            if jobs_selected > 0:
-                print(f"🤖 JARVIS: Applying to batch...")
-                apply_btn = page.get_by_role("button", name=re.compile(r"^Apply", re.IGNORECASE))
-                if await apply_btn.count() > 0:
-                    await apply_btn.first.click()
-                    await handle_questionnaire(page, resume_content, prompt_template)
-                    print("🎉 JARVIS: Operation Successful. Mission Accomplished.")
-                    await human_delay(5, 10)
+                if jobs_selected > 0:
+                    print(f"🤖 JARVIS: Applying to batch...")
+                    apply_btn = page.get_by_role("button", name=re.compile(r"^Apply", re.IGNORECASE))
+                    if await apply_btn.count() > 0:
+                        await apply_btn.first.click()
+                        await handle_questionnaire(page, resume_content, prompt_template)
+                        print("🎉 JARVIS: Batch Operation Successful. Taking a short break before next batch.")
+                        await human_delay(15, 30)
+                else:
+                    print("🤖 JARVIS: No unapplied jobs found on this page. Waiting before checking again...")
+                    await human_delay(60, 120)
 
         except Exception as e:
             print(f"❌ JARVIS Total Failure: {str(e)}")
