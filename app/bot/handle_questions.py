@@ -8,7 +8,7 @@ from langchain_core.prompts import ChatPromptTemplate
 
 
 def should_include_resume(question):
-    keywords = ["experience", "skill", "project", "technology", "linkedin", "github", "portfolio", "email", "phone", "contact"]
+    keywords = ["skill", "project", "technology", "linkedin", "github", "portfolio", "email", "phone", "contact"]
     return any(k in question.lower() for k in keywords)
 
 async def handle_questionnaire(page: Page, llm: ChatGroq, resume:str, system_prompt:str, human_prompt:str):

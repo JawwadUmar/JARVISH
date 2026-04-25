@@ -6,6 +6,8 @@ import re
 from langchain_groq import ChatGroq
 from app.bot.handle_login import handleLogin
 from app.bot.open_job_page import openJobPage
+from app.bot.select_jobs import selectJobInBulk
+from app.bot.apply_to_jobs import applyInBulk
 
 async def run_bot(llm:ChatGroq, resume:str, system_prompt:str, human_prompt:str):
     async with async_playwright() as p:
@@ -36,7 +38,7 @@ async def run_bot(llm:ChatGroq, resume:str, system_prompt:str, human_prompt:str)
                             tab = page.locator(tab_locator)
                             if await tab.is_visible():
                                 await tab.click()
-                                await human_delay(3, 6)
+                                await human_delay(2, 4)
                             else:
                                 print("🤖 JARVIS: 'You might like' tab not visible.")
                                 continue
@@ -45,38 +47,18 @@ async def run_bot(llm:ChatGroq, resume:str, system_prompt:str, human_prompt:str)
                             continue
 
                     # BATCH SELECTION
-                    checkboxes = page.locator('article.jobTuple .tuple-check-box')
-                    total = await checkboxes.count()
-                    jobs_selected = 0
-                    for i in range(total):
-                        if jobs_selected >= 5: break
-                        cb = checkboxes.nth(i)
-                        if await cb.is_visible():
-                            # Random scroll simulation
-                            if random.random() > 0.6: await page.mouse.wheel(0, random.randint(200, 400))
-                            
-                            is_checked = await cb.locator('.naukicon-ot-Checked').count() > 0
-                            if not is_checked:
-                                await cb.click()
-                                jobs_selected += 1
-                                print(f"✅ Selected job {jobs_selected}/5")
-                                await human_delay(1.5, 3.0)
+                    count_jobs_selected = await selectJobInBulk(page)
 
-                    if jobs_selected > 0:
-                        print(f"🤖 JARVIS: Applying to batch...")
-                        apply_btn = page.get_by_role("button", name=re.compile(r"^Apply", re.IGNORECASE))
-                        if await apply_btn.count() > 0:
-                            await apply_btn.first.click()
-                            await handle_questionnaire(page, llm, resume, system_prompt, human_prompt)
-                            print("🎉 JARVIS: Batch Operation Successful. Taking a short break before next batch.")
-                            await human_delay(15, 30)
+                    if count_jobs_selected > 0:
+                        await applyInBulk(page, llm, resume, system_prompt, human_prompt)
                         break
                     else:
                         print(f"🤖 JARVIS: No unapplied jobs found on current tab.")
                 
-                if jobs_selected == 0:
-                    print("🤖 JARVIS: No unapplied jobs found on any tabs. Waiting before checking again...")
-                    await human_delay(60, 120)
+                    if count_jobs_selected == 0:
+                        print("🤖 JARVIS: No unapplied jobs found on this tab. Checking another tab...")
+                        await human_delay(1, 2)
+
         except Exception as e:
             print(f"Error: {e}")
             await human_delay(60, 120)
