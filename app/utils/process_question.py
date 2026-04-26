@@ -15,3 +15,22 @@ def exact_match(normalized_q:str, db: list[DBItem]) -> str|None:
     return None
 
 
+def build_query(question: str, options: list[str] | None = None) -> str:
+    # normalize question
+    q = normalize(question)
+
+    if not options:
+        return q
+    
+    # normalize + clean options
+    cleaned_opts = [
+        opt.strip().lower()
+        for opt in options
+        if opt and opt.strip()
+    ]
+
+    # sort to avoid order issues
+    cleaned_opts.sort()
+
+    # join everything into one string
+    return q + " | " + " | ".join(cleaned_opts)
