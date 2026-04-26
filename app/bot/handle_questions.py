@@ -8,6 +8,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from app.utils.bot_question import getNaukriBotQuestion
 from app.bot.handle_options import getAvailableOptions
 from app.ai.ai_answer import getAiAnswer
+from app.repository.repo import findAnswerFromPreviousResponse, saveResponseToDB
 
 
 
@@ -41,7 +42,10 @@ async def handle_questionnaire(page: Page, llm: ChatGroq, resume:str, system_pro
                 if available_options: print(f"🔘 Options detected: {available_options}")
 
             print("🧠 JARVIS: Thinking...")
-            answer = await getAiAnswer(system_prompt, human_prompt, resume, available_options, question, llm)
+            answer = findAnswerFromPreviousResponse(question, available_options)
+            if answer == None:
+                answer = await getAiAnswer(system_prompt, human_prompt, resume, available_options, question, llm)
+                saveResponseToDB(question, available_options, answer)
             print(f"✅ JARVIS Answer: {answer}")
 
             if is_text:

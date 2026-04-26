@@ -1,5 +1,4 @@
 import re
-from app.database.db_record import DBItem
 
 def normalize(text):
     text = text.lower()
@@ -7,12 +6,6 @@ def normalize(text):
     text = re.sub(r'[^a-z0-9 ]', '', text)
     return text.strip()
 
-
-def exact_match(normalized_q:str, db: list[DBItem]) -> str|None:
-    for item in db:
-        if item["normalized"] == normalized_q:
-            return item["answer"]
-    return None
 
 
 def build_query(question: str, options: list[str] | None = None) -> str:

@@ -1,5 +1,6 @@
 
 from typing import TypedDict
+from app.utils.process_question import normalize
 
 class DBItem(TypedDict):
     question: str
@@ -7,10 +8,10 @@ class DBItem(TypedDict):
     embedding: list[float]
     answer: str
 
-def makeDBItem(question: str, answer: str)->DBItem:
+def makeDBItem(normalized_question: str, answer: str)->DBItem:
     return {
-        "question":question, 
-            "normalized": normalize(question),
+            "question":normalized_question, 
+            "normalized": normalized_question,
             "embedding": [], 
             "answer":answer
     }
