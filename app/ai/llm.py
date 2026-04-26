@@ -1,11 +1,6 @@
 from langchain_groq import ChatGroq
 from langchain_community.cache import SQLiteCache
-
-# --- 2. INITIALIZE AI BRAIN ---
-try:
-    from langchain_core.globals import set_llm_cache
-except ImportError:
-    from langchain.globals import set_llm_cache
+from langchain_core.globals import set_llm_cache
 
 
 def init_llm():
