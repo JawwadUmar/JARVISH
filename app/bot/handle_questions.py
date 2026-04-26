@@ -1,10 +1,11 @@
 import asyncio
 import random
-from playwright.async_api import Page
+from playwright.async_api import Page, Locator
 
 from app.utils.human import human_delay, human_typing, human_mouse_move
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
+from app.utils.bot_question import getNaukriBotQuestion
 
 
 def should_include_resume(question):
@@ -27,13 +28,10 @@ async def handle_questionnaire(page: Page, llm: ChatGroq, resume:str, system_pro
 
             await asyncio.sleep(random.uniform(2.0, 3.5))
 
-            #Scrape the latest Naukri bot message
-            naukri_bot_messages = page.locator('.botItem .botMsg span')
-            count = await naukri_bot_messages.count()
-            if count == 0:
-                continue
+            question = await getNaukriBotQuestion(page)
 
-            question = await naukri_bot_messages.nth(count - 1).inner_text()
+            if question == None:
+                continue
 
             input_box = page.locator('.textArea[contenteditable="true"]')
             is_text = await input_box.is_visible()
@@ -67,11 +65,8 @@ async def handle_questionnaire(page: Page, llm: ChatGroq, resume:str, system_pro
             print(f"✅ JARVIS Answer: {answer}")
 
             if is_text:
-                await input_box.click()
-                await page.keyboard.press('Control+A')
-                await page.keyboard.press('Backspace')
-                await human_typing(page.keyboard, answer)
-                await human_delay(1, 2)
+                await handleTextResponse(input_box, answer, page)
+                
             elif available_options:
                 matched = next((opt for opt in available_options if opt.lower() in answer.lower()), None)
                 if matched:
@@ -99,3 +94,11 @@ async def handle_questionnaire(page: Page, llm: ChatGroq, resume:str, system_pro
 
     except Exception as e:
         print(f"🤖 JARVIS Error in questionnaire: {repr(e)}")
+
+
+async def handleTextResponse(input_box: Locator, answer: str, page: Page):
+    await input_box.click()
+    await page.keyboard.press('Control+A')
+    await page.keyboard.press('Backspace')
+    await human_typing(page.keyboard, answer)
+    await human_delay(1, 2)
