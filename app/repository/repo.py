@@ -14,6 +14,6 @@ def findAnswerFromPreviousResponse(question: str, available_options: list[str]|N
 def saveResponseToDB(question: str, available_options: list[str]|None, answer:str):
     full_question = build_query(question, available_options)
     normalized_question = normalize(full_question)
-    dbItem = makeDBItem(normalized_question, answer)
+    dbItem = makeDBItem(question, normalized_question, answer)
     add_item(dbItem)
     save_db()
