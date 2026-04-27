@@ -9,6 +9,7 @@ from app.utils.bot_question import getNaukriBotQuestion
 from app.bot.handle_options import getAvailableOptions
 from app.ai.ai_answer import getAiAnswer
 from app.repository.repo import findAnswerFromPreviousResponse, saveResponseToDB
+from typing import Any
 
 
 
@@ -70,7 +71,7 @@ async def handleTextResponse(input_box: Locator, answer: str, page: Page):
     await human_typing(page.keyboard, answer)
     await human_delay(1, 2)
 
-async def handleOptionResponse(available_options: list[str], answer:str|any, chat_container: Locator, page: Page):
+async def handleOptionResponse(available_options: list[str], answer:str|Any, chat_container: Locator, page: Page):
     matched = next((opt for opt in available_options if opt.lower() in answer.lower()), None)
     if matched:
         target = chat_container.get_by_text(matched, exact=True).last
