@@ -2,8 +2,9 @@
 
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
+from typing import Any
 
-async def getAiAnswer(system_prompt: str, human_prompt:str, resume:str, available_options:list[str], question: str, llm: ChatGroq)->str|any:
+async def getAiAnswer(system_prompt: str, human_prompt:str, resume:str, available_options:list[str], question: str, llm: ChatGroq)->str|Any:
     prompt_template = ChatPromptTemplate.from_messages([
                 ("system", system_prompt),
                 ("human", human_prompt)
