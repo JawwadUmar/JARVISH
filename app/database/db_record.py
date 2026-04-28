@@ -8,10 +8,10 @@ class DBItem(TypedDict):
     embedding: list[float]
     answer: str
 
-def makeDBItem(normalized_question: str, answer: str)->DBItem:
+def makeDBItem(question: str, normalized_question: str, questionEmbedding: list[float], answer: str)->DBItem:
     return {
-            "question":normalized_question, 
+            "question":question, 
             "normalized": normalized_question,
-            "embedding": [], 
+            "embedding": questionEmbedding, 
             "answer":answer
     }

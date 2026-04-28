@@ -29,7 +29,7 @@ async def run_bot(llm:ChatGroq, resume:str, system_prompt:str, human_prompt:str)
             while True:  
                 await openJobPage(page)
 
-                tabs_to_check = [None, '#similar_jobs .tab-list-item']
+                tabs_to_check = ['#apply .tab-list-item', '#similar_jobs .tab-list-item']
                 
                 for tab_locator in tabs_to_check:
                     if tab_locator:
