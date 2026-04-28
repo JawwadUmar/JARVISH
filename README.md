@@ -14,7 +14,7 @@ What makes JARVISH special is its **AI Brain** (powered by LangChain and Groq). 
 ## Prerequisites
 
 - Python 3.8+
-- A Groq API Key (for the LLM)
+- A [Groq API Key](https://console.groq.com/keys) (for the LLM)
 - A Naukri.com account
 
 ## Initial Setup
