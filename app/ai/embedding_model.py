@@ -1,3 +1,4 @@
+
 from sentence_transformers import SentenceTransformer
 from app.database.db_record import DBItem
 from sklearn.metrics.pairwise import cosine_similarity
