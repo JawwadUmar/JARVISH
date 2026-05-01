@@ -2,13 +2,19 @@ import asyncio
 from app.ai.llm import init_llm
 from app.utils.file_loader import get_resume, get_system_prompt, get_human_prompt
 from app.bot.bot_runner import run_bot
+import os
+import json
 
 
 async def main():
+    if not os.path.exists('data/db.json'):
+        with open('data/db.json', 'w') as f:
+            json.dump({}, f)
     llm = init_llm()
     resume = get_resume()
     system_prompt = get_system_prompt()
     human_prompt = get_human_prompt()
+    
 
     if llm == None:
         print("❌ JARVIS: AI Initialization Failed.")
