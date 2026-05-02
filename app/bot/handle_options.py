@@ -4,7 +4,7 @@ async def getAvailableOptions(chat_container: Locator):
     available_options: list[str] = []
 
     # Targeted search inside the chat container for option labels and buttons
-    # We exclude '.ssrc__radio' to avoid capturing hidden input values directly, preferring visible labels.
+    # c exclude '.ssrc__radio' to avoid capturing hidden input values directly, preferring visible labels.
     options_locator = chat_container.locator('.ssrc__label, label, button, .chip, [role="button"]')
     for i in range(await options_locator.count()):
         el = options_locator.nth(i)
