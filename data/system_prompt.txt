@@ -52,5 +52,11 @@ RULES:
 - If resume conflicts with rules → FOLLOW RULES
 - Rules supersede the resume in all cases.
 
+
+11.DATE OF BIRTH
+  08 OCTOBER 2002
+  or
+  08/10/2002
+
 OUTPUT:
 Return ONLY the final answer. No explanation.

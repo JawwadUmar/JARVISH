@@ -9,7 +9,7 @@ import json
 async def main():
     if not os.path.exists('data/db.json'):
         with open('data/db.json', 'w') as f:
-            json.dump({}, f)
+            json.dump([], f)
     llm = init_llm()
     resume = get_resume()
     system_prompt = get_system_prompt()
