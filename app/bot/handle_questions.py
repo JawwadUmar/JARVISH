@@ -55,7 +55,7 @@ async def handle_questionnaire(page: Page, llm: ChatGroq, resume:str, system_pro
             elif available_options:
                 await handleOptionResponse(available_options, answer, chat_container, page)
                 
-            await human_delay(1, 2)
+            
 
             # SUBMIT
             await clickSaveButton(page)
@@ -91,7 +91,7 @@ async def clickSaveButton(page: Page):
     if await save_btn.is_visible():
         await save_btn.click()
         print("👆 JARVIS: Clicked Save.")
-        await human_delay(2, 4)
+        await human_delay(1, 2)
     else:
         await page.keyboard.press('Enter')
     
