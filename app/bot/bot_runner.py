@@ -25,6 +25,9 @@ async def run_bot(llm:ChatGroq, resume:str, system_prompt:str, human_prompt:str)
 
         try:
             await handleLogin(page)
+            total_jobs_applied = 0
+            threshold = 50  
+
 
             while True:  
                 await openJobPage(page)
@@ -57,6 +60,8 @@ async def run_bot(llm:ChatGroq, resume:str, system_prompt:str, human_prompt:str)
 
                     if count_jobs_selected > 0:
                         await applyInBulk(page, llm, resume, system_prompt, human_prompt)
+                        total_jobs_applied += count_jobs_selected
+
                         break
                     else:
                         print(f"🤖 JARVIS: No unapplied jobs found on current tab.")
@@ -65,9 +70,17 @@ async def run_bot(llm:ChatGroq, resume:str, system_prompt:str, human_prompt:str)
                         print("🤖 JARVIS: No unapplied jobs found on this tab. Checking another tab...")
                         await human_delay(1, 2)
 
+                if total_jobs_applied >= threshold:
+                    print(f"🤖 JARVIS: Applied to {total_jobs_applied} jobs. Threshold of {threshold} reached. Stopping bot.")
+                    break  
+                
+                        
+
+                
+
         except Exception as e:
             print(f"Error: {e}")
-            await human_delay(60, 120)
+            await human_delay(20, 40)
 
         finally:
             print("🤖 JARVIS: Powering down...")
