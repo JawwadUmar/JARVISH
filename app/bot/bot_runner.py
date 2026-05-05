@@ -25,15 +25,24 @@ async def run_bot(llm:ChatGroq, resume:str, system_prompt:str, human_prompt:str)
 
         try:
             await handleLogin(page)
+            total_jobs_applied = 0
+            threshold = 50  
+
 
             while True:  
                 await openJobPage(page)
 
-                tabs_to_check = ['#apply .tab-list-item', '#similar_jobs .tab-list-item']
+                tabs_to_check = [
+                    'div.tab-list-item:has-text("Preferences")',
+                    'div.tab-list-item:has-text("Top Candidate")',
+                    'div.tab-list-item:has-text("Profile")',
+                    'div.tab-list-item:has-text("Applies")',
+                    'div.tab-list-item:has-text("You might like")'
+                ]
                 
                 for tab_locator in tabs_to_check:
                     if tab_locator:
-                        print("🤖 JARVIS: Checking 'You might like' tab...")
+                        print(f"🤖 JARVIS: Checking tab {tab_locator}...")
                         try:
                             tab = page.locator(tab_locator)
                             if await tab.is_visible():
@@ -51,6 +60,8 @@ async def run_bot(llm:ChatGroq, resume:str, system_prompt:str, human_prompt:str)
 
                     if count_jobs_selected > 0:
                         await applyInBulk(page, llm, resume, system_prompt, human_prompt)
+                        total_jobs_applied += count_jobs_selected
+
                         break
                     else:
                         print(f"🤖 JARVIS: No unapplied jobs found on current tab.")
@@ -59,9 +70,17 @@ async def run_bot(llm:ChatGroq, resume:str, system_prompt:str, human_prompt:str)
                         print("🤖 JARVIS: No unapplied jobs found on this tab. Checking another tab...")
                         await human_delay(1, 2)
 
+                if total_jobs_applied >= threshold:
+                    print(f"🤖 JARVIS: Applied to {total_jobs_applied} jobs. Threshold of {threshold} reached. Stopping bot.")
+                    break  
+                
+                        
+
+                
+
         except Exception as e:
             print(f"Error: {e}")
-            await human_delay(60, 120)
+            await human_delay(20, 40)
 
         finally:
             print("🤖 JARVIS: Powering down...")
