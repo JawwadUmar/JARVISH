@@ -36,8 +36,8 @@ async def run_bot(llm:ChatGroq, resume:str, system_prompt:str, human_prompt:str)
                     'div.tab-list-item:has-text("Preferences")',
                     'div.tab-list-item:has-text("Top Candidate")',
                     'div.tab-list-item:has-text("Profile")',
+                    'div.tab-list-item:has-text("You might like")',
                     'div.tab-list-item:has-text("Applies")',
-                    'div.tab-list-item:has-text("You might like")'
                 ]
                 
                 for tab_locator in tabs_to_check:
